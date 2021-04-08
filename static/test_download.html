@@ -1,0 +1,112 @@
+<html>
+
+<head>
+  <!-- <script type="text/javascript" src="./jquery-3.1.1.min.js"></script> -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js">
+  </script>
+</head>
+
+<body>
+  <button id="btn1">下载二维码</button>
+  <select id="sel_companies">
+    <option value="all" selected>all</option>
+  </select>
+  <div id="canvas_list"></div>
+  <div id="image_list"></div>
+</body>
+
+<script src="jszip/FileSaver.js"></script>
+<script src="jszip/jszip.js"></script>
+<script>
+  let bus_list=[];
+  let bus_map={}
+  const $image_list=$('#image_list')
+  const $canvas_list=$('#canvas_list')
+  let zip = new JSZip();
+
+  function drawCanvas(bus){
+      let name=bus.companyName,license_plate=bus.license_plate
+      let canvas=document.createElement('canvas')
+      $(canvas).attr('width',400)
+      $(canvas).attr('height',400)
+      let ctx = canvas.getContext("2d");
+      let base_image=new Image()
+      $(base_image).attr('src','/api/web/getBusimg?license_plate='+encodeURIComponent(license_plate))
+      $(base_image).load(function(){
+        console.log('in load')
+        ctx.drawImage(base_image,(canvas.width-base_image.width)/2,(canvas.height-base_image.height)/2);
+        ctx.font = "30px Arial";
+        ctx.textAlign='center';
+        ctx.fillText('上师大学生班车',canvas.width/2,canvas.height/6.5)
+        ctx.font = "40px Arial";
+        ctx.fillText(name+' '+license_plate,canvas.width/2,canvas.height-30)
+        $(canvas).appendTo($canvas_list)
+        bus_map[name+' '+license_plate]=canvas.toDataURL()
+        zip.file(`${name+' '+license_plate}.jpg`, canvas.toDataURL().replace(/^data:image\/png;base64,/, ''), {base64: true});
+      })
+  }
+
+  fetch('/api/web/company/getAll', {
+    method: 'POST',
+    headers: (new Headers()).append('Content-Type', 'application/json'),
+    body: {
+      data: {}
+    }
+  }).then(res => {
+    res.json().then(body => {
+      let companies = body.data.rows;
+      let $sel_companies = $('#sel_companies');
+      companies.forEach((item) => {
+        $sel_companies.append($('<option>').val(item.id).text(item.name));
+      });
+    });
+  }).catch(err => {
+    console.error('fetch companies data failed.', err);
+  })
+
+  function fetchBuses() {
+    //fetch bus_list
+    // /api/web/bus/getAll
+
+    var body = {
+      data:{
+        limit:9999,
+        offset:0
+      }
+    };
+    var companyId = $('#sel_companies').val();
+    if (companyId && companyId !== 'all') {
+      body.data.company_id = companyId;
+    } 
+
+    $.post('/api/web/v_bus/getPage', body).then(function(res){
+      bus_list=res.data.rows
+      bus_list.forEach(function(bus){
+        drawCanvas(bus)
+      })
+    })
+  }
+
+  $(function(){
+
+    fetchBuses();
+
+    $('#sel_companies').on('change', (event) => {
+      $canvas_list.empty();
+      zip = new JSZip();
+      fetchBuses();
+    });
+
+    // download button
+    $('#btn1').click(function(){
+      zip.generateAsync({type:"blob"})
+      .then(function(content) {
+          // see FileSaver.js
+          saveAs(content, "车辆二维码("+$('#sel_companies option:selected').text()+").zip");
+      });
+      return false;
+    })
+  })
+</script>
+
+</html>

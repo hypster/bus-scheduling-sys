@@ -1,0 +1,281 @@
+@import "color";
+
+ul{
+  list-style: none;
+}
+
+//弹窗
+.locations{
+  .weui-dialog__bd {
+    padding: 0;
+  }
+  p{
+    font-size: 18px;
+    color:#000;
+  }
+  .weui-cell:before{
+    border:none;
+  }
+
+}
+
+
+.weui-panel__hd.h1{
+  color:#000;
+  background-color:$green;
+}
+
+h1.title{
+  font-size:1.5em;
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.page-title{
+  text-align: center;
+  color:#000;
+}
+
+.weui-cell{
+  &.start,&.end,&.date{
+    padding: 10px 15px;
+  }
+
+  &.time{
+    padding:0 15px;
+  }
+
+}
+
+
+
+
+.filter-btn{
+  margin: 0 15px;
+}
+
+
+
+
+
+//班次列表页面
+.schedule{
+  //overflow-x:hidden;
+
+  a.line {
+  display: block;
+    color:#000;
+  &:hover,&:link,&:visited{
+    color:#000;
+    text-decoration: none;
+  }
+
+  }
+
+  .info-display-all{
+    color:#999999;
+  }
+
+  .weui-cells__title.schedule-date{
+    margin-top: .77em;
+    margin-bottom: .3em;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #999999;
+    font-size: 14px;
+  }
+
+
+  .schedule-table-wrapper{
+    background-color:$gray;
+
+    .weui-cells{
+      box-shadow: $shadow;
+    }
+  }
+
+  .sold{
+    color:#10AEFF;
+  }
+
+  .rest{
+    color:$success;
+  }
+
+  .total{
+    color:$yellowgreen;
+  }
+
+
+
+  .date-time-filter-section .weui-cell:before{
+    border:none;
+  }
+
+  .schedule_table{
+    padding-right: 0.5em;
+
+  }
+
+  .route-header{
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 0;
+  }
+  .route{
+    //flex:1 50%;
+    text-align: left;
+  }
+  .time{
+    flex:1;
+    text-align: right;
+    em{
+
+    }
+    //line-height: 1em;
+  }
+  .route-body{
+    padding-top: 0;
+  }
+
+
+  .route{
+    display: flex;
+    .route-name{
+    }
+    .route-company{
+      font-size: .8em;
+    }
+  }
+
+  .weui-form-preview__value.time{
+    //display: inline-block;
+  }
+
+  .weui-form-preview__hd:after{
+    border:none;
+  }
+  .weui-form-preview:after{
+    border:none;
+  }
+
+
+  .weui-form-preview__hd .weui-form-preview__value{
+    font-size: 1.4em;
+  }
+
+}
+
+.detail-page{
+  .btn-wrapper{
+    padding: 10px 15px 0;
+  }
+  .weui-cells {
+    margin-bottom: 15px;
+  }
+  .btn-wrapper {
+    padding-top: 0;
+  }
+  .balance {
+    font-size: 12px;
+  }
+  .noOrder {
+    color: red;
+  }
+  .insufficientBalance {
+    color: red;
+  }
+}
+
+.page-info-page{
+  .btn-group{
+    text-align: center;
+  }
+
+  .ticket{
+    margin-top: 0.7em;
+
+    .weui-panel:after{
+      border:none;
+    }
+  }
+
+
+}
+
+.page-check-success{
+  .btn-wrapper{
+    padding: 10px 15px 0;
+  }
+
+  .remark{
+    padding: 10px 15px 0;
+  }
+
+  .ticket{
+    .weui-panel__bd{
+        position: relative;
+      .valid{
+        position: absolute;
+        top: 50%;
+        right: 1em;
+        transform:rotate(20deg) translate(-50%);
+        padding: 1em;
+        opacity: 0.8;
+
+        &::after{
+          position: absolute;
+          content: " ";
+          width: 100%;
+          height: auto;
+          min-height: 100%;
+          top: -10px;
+          left: -10px;
+          padding: 10px;
+          background: url("../../../static/noise.png") repeat;
+        }
+
+        div{
+          transform:rotate(-20deg);
+          position: relative;
+          z-index: 1000;
+        }
+      }
+      .valid-true{
+        border:2px solid $green;
+      }
+      .valid-false{
+        border:2px solid red;
+      }
+    }
+  }
+
+}
+
+.page-personal-info{
+  .btn-wrapper{
+    padding: 10px 15px 0;
+  }
+
+  .pocket-money{
+    label,p {
+      color:$green;
+    }
+  }
+}
+
+.page-my-ticket{
+  .price{
+    color:$green;
+  }
+}
+
+[class^="weui-icon_"],
+[class*=" weui-icon_"] {
+  &:before {
+    font-size: 55px;
+  }
+}
+
+
+
